@@ -16,7 +16,19 @@ $stmt->execute([':id' => $varid]);
 $vare = $stmt->fetch();
 
 if (!$vare) {
-    echo "Varen findes ikke i lagerbeholdning";
+    // Fjern ugyldig reference fra bestillingslisten
+    $del = $pdo->prepare("DELETE FROM bestil WHERE beholdID = :id");
+    $del->execute([':id' => $varid]);
+
+    // Hent næste vare markeret som købt, hvis den findes
+    $naesteVareId = $pdo->query("SELECT beholdID FROM bestil WHERE bestilt = 'Ja' ORDER BY id ASC LIMIT 1")->fetchColumn();
+
+    if ($naesteVareId) {
+        header("Location: /lager/modules/indkoeb/indkoeb_fra_fjern.php?varid=" . urlencode((string) $naesteVareId));
+        exit;
+    }
+
+    header("Location: /lager/index.php");
     exit;
 }
 

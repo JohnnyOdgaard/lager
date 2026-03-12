@@ -28,7 +28,7 @@ ob_start();
                         <tr>
                             <th>ID</th>
                             <th>Vare</th>
-                            <th>Bestilt</th>
+                            <th>Købt</th>
                         </tr>
                     </thead>
 
