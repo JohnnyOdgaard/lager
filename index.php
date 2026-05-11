@@ -68,6 +68,22 @@ include __DIR__ . "/includes/header.php";
                 </div>
             </div>
         </div>
+
+        <div class="col-12 col-md-6 col-xl-3 d-flex">
+            <div class="card h-100 w-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Opladning</h5>
+                    <p class="card-text flex-grow-1">
+                        Her indtastes aflæsninger fra opladning af elbil
+                        via nedenstående knapper.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="/lager/modules/elmaaling/aflaes_opladning.php" class="btn btn-outline-success flex-fill">Aflæs</a>
+                        <a href="/lager/modules/elmaaling/vis_opladning.php" class="btn btn-outline-primary flex-fill">Vis</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

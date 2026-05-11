@@ -189,6 +189,16 @@ document.addEventListener("DOMContentLoaded", function() {
                         </div>
                     </li>
 
+                    <!-- Opladning -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">Opladning</a>
+                        <div class="dropdown-menu">
+                            <a href="/lager/modules/elmaaling/aflaes_opladning.php" class="dropdown-item">Aflæs</a>
+                            <a href="/lager/modules/elmaaling/vis_opladning.php" class="dropdown-item">Vis</a>
+                            <a href="/lager/modules/elmaaling/ret_opladning.php" class="dropdown-item">Ret</a>
+                        </div>
+                    </li>
+
                     <li class="nav-item">
                         <a href="/lager/system/status.php" class="nav-link">Lav status</a>
                     </li>
