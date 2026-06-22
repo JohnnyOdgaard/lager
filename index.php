@@ -84,6 +84,19 @@ include __DIR__ . "/includes/header.php";
                 </div>
             </div>
         </div>
+
+        <div class="col-12 col-md-6 col-xl-3 d-flex">
+            <div class="card h-100 w-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Lager Log</h5>
+                    <p class="card-text flex-grow-1">
+                        Se log over alle indkøb og hentninger med statistik.
+                        Filtrer efter handling og varenavn.
+                    </p>
+                    <a href="/lager/system/lager_log.php" class="btn btn-outline-success mt-2">Åbn log</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

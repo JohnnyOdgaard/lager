@@ -28,7 +28,9 @@ ob_start();
                     <th>Dato</th>
                     <th>Opladningsgrad %</th>
                     <th>Km-stand</th>
-                    <th>KwH</th>
+                    <th>Opladt kWh</th>
+                    <th>Fra kWh</th>
+                    <th>Opladning fra</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +39,9 @@ ob_start();
                         <td data-label="Dato"><?= htmlspecialchars($r['dato']) ?></td>
                         <td data-label="Opladningsgrad %" align="center"><?= htmlspecialchars($r['opladningsgrad']) ?>%</td>
                         <td data-label="Km-stand" align="right"><?= number_format($r['km_stand'], 0, ',', '.') ?></td>
-                        <td data-label="KwH" align="right"><?= number_format($r['kwh'], 2, ',', '.') ?></td>
+                        <td data-label="Opladt kWh" align="right"><?= number_format($r['kwh'], 2, ',', '.') ?></td>
+                        <td data-label="Fra kWh" align="right"><?= !empty($r['fra_kwh']) ? number_format($r['fra_kwh'], 2, ',', '.') : '-' ?></td>
+                        <td data-label="Opladning fra"><?= htmlspecialchars($r['opladning_fra'] ?? '') ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

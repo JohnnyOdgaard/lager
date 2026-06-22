@@ -8,13 +8,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     $opladningsgrad  = (int)$_POST['opladningsgrad'];
     $km_stand        = (int)$_POST['km_stand'];
     $kwh             = (float)$_POST['kwh'];
+    $fra_kwh         = !empty($_POST['fra_kwh']) ? (float)$_POST['fra_kwh'] : null;
+    $opladning_fra   = trim($_POST['opladning_fra']);
 
     // Opdater i databasen (dato kan ikke ændres)
     $stmt = $pdo->prepare("
         UPDATE opladning 
         SET opladningsgrad = :opladningsgrad,
             km_stand = :km_stand,
-            kwh = :kwh
+            kwh = :kwh,
+            fra_kwh = :fra_kwh,
+            opladning_fra = :opladning_fra
         WHERE id = :id
     ");
 
@@ -22,7 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
         ':id'             => $id,
         ':opladningsgrad' => $opladningsgrad,
         ':km_stand'       => $km_stand,
-        ':kwh'            => $kwh
+        ':kwh'            => $kwh,
+        ':fra_kwh'        => $fra_kwh,
+        ':opladning_fra'  => $opladning_fra
     ]);
 
     // Redirect
@@ -57,7 +63,7 @@ ob_start();
             <option value="">-- Vælg aflæsning --</option>
             <?php foreach ($rows as $r): ?>
                 <option value="<?= $r['id'] ?>" <?= (!empty($_GET['id']) && $_GET['id'] == $r['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($r['dato']) ?> - <?= $r['opladningsgrad'] ?>% - <?= number_format($r['km_stand'], 0, ',', '.') ?> km - <?= number_format($r['kwh'], 2, ',', '.') ?> kWh
+                    <?= htmlspecialchars($r['dato']) ?> - <?= $r['opladningsgrad'] ?>% - <?= number_format($r['km_stand'], 0, ',', '.') ?> km - Opladt: <?= number_format($r['kwh'], 2, ',', '.') ?> kWh<?= !empty($r['fra_kwh']) ? ' (Fra: ' . number_format($r['fra_kwh'], 2, ',', '.') . ')' : '' ?> - <?= htmlspecialchars($r['opladning_fra'] ?? '') ?>
                 </option>
             <?php endforeach; ?>
         </select>
@@ -96,11 +102,31 @@ ob_start();
                 </tr>
 
                 <tr>
-                    <th>KwH</th>
+                    <th>Opladt kWh</th>
                     <td>
                         <input type="number" name="kwh" class="form-control" 
                                step="0.01" value="<?= number_format($selected['kwh'], 2, '.', '') ?>" required>
-                        <small class="text-muted">Brug 2 decimaler</small>
+                        <small class="text-muted">Hvor mange kWh blev der opladt</small>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Fra kWh</th>
+                    <td>
+                        <input type="number" name="fra_kwh" class="form-control" 
+                               step="0.01" value="<?= !empty($selected['fra_kwh']) ? number_format($selected['fra_kwh'], 2, '.', '') : '' ?>" 
+                               placeholder="0.00">
+                        <small class="text-muted">Hvor mange kWh var der før opladning (valgfrit)</small>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Opladning fra</th>
+                    <td>
+                        <input type="text" name="opladning_fra" class="form-control" 
+                               value="<?= htmlspecialchars($selected['opladning_fra'] ?? '') ?>" 
+                               placeholder="F.eks. Hjemme, Arbejde, Offentlig">
+                        <small class="text-muted">Valgfrit felt</small>
                     </td>
                 </tr>
 

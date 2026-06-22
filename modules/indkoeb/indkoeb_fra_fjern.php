@@ -115,7 +115,7 @@ ob_start();
 
             <tr>
                 <th>Købt den</th>
-                <td><input type="date" name="kobsdato" class="form-control" value="<?= $vare['kobsdato'] ?>"></td>
+                <td><input type="date" name="kobsdato" class="form-control" value="<?= date('Y-m-d') ?>"></td>
             </tr>
 
             <tr>

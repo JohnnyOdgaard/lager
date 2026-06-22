@@ -61,7 +61,7 @@ ob_start();
             <tr>
                 <th>Elmåler</th>
                 <td>
-                    <input type="number" name="el" class="form-control" value="46408" required autofocus>
+                    <input type="number" name="el" class="form-control" required autofocus>
                     <small class="text-muted">Der lægges automatisk +92.527 til</small>
                 </td>
             </tr>
@@ -69,7 +69,7 @@ ob_start();
             <tr>
                 <th>Solceller</th>
                 <td>
-                    <input type="number" name="solcelle" class="form-control" required>
+                    <input type="number" name="solcelle" class="form-control" value="46408" required>
                 </td>
             </tr>
 

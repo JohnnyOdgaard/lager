@@ -11,18 +11,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $opladningsgrad  = (int)$_POST['opladningsgrad'];
     $km_stand        = (int)$_POST['km_stand'];
     $kwh             = (float)$_POST['kwh'];
+    $fra_kwh         = !empty($_POST['fra_kwh']) ? (float)$_POST['fra_kwh'] : null;
+    $opladning_fra   = trim($_POST['opladning_fra']);
 
     // Gem i databasen
     $stmt = $pdo->prepare("
-        INSERT INTO opladning (dato, opladningsgrad, km_stand, kwh)
-        VALUES (:dato, :opladningsgrad, :km_stand, :kwh)
+        INSERT INTO opladning (dato, opladningsgrad, km_stand, kwh, fra_kwh, opladning_fra)
+        VALUES (:dato, :opladningsgrad, :km_stand, :kwh, :fra_kwh, :opladning_fra)
     ");
 
     $stmt->execute([
         ':dato'           => $dato,
         ':opladningsgrad' => $opladningsgrad,
         ':km_stand'       => $km_stand,
-        ':kwh'            => $kwh
+        ':kwh'            => $kwh,
+        ':fra_kwh'        => $fra_kwh,
+        ':opladning_fra'  => $opladning_fra
     ]);
 
     // Redirect for at undgå genindsendelse
@@ -69,11 +73,29 @@ ob_start();
             </tr>
 
             <tr>
-                <th>KwH</th>
+                <th>Opladt kWh</th>
                 <td>
                     <input type="number" name="kwh" class="form-control" 
                            step="0.01" required>
-                    <small class="text-muted">Brug 2 decimaler</small>
+                    <small class="text-muted">Hvor mange kWh blev der opladt</small>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Fra kWh</th>
+                <td>
+                    <input type="number" name="fra_kwh" class="form-control" 
+                           step="0.01" placeholder="0.00">
+                    <small class="text-muted">Hvor mange kWh var der før opladning (valgfrit)</small>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Opladning fra</th>
+                <td>
+                    <input type="text" name="opladning_fra" class="form-control" 
+                           placeholder="F.eks. Hjemme, Arbejde, Offentlig">
+                    <small class="text-muted">Valgfrit felt</small>
                 </td>
             </tr>
 
