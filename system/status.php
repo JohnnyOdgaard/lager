@@ -6,6 +6,12 @@ error_reporting(E_ALL);
 require_once dirname(__DIR__) . "/includes/config.php";
 
 $placering = $_GET['placering'] ?? '';
+$dato = $_GET['dato'] ?? date('Y-m-d');
+$valideretDato = DateTime::createFromFormat('!Y-m-d', $dato);
+
+if (!$valideretDato || $valideretDato->format('Y-m-d') !== $dato) {
+    $dato = date('Y-m-d');
+}
 
 //
 // HENT PLACERINGER
@@ -15,13 +21,21 @@ $pladser = $pdo->query("SELECT id, plads FROM plads ORDER BY plads")->fetchAll()
 //
 // BYG QUERY
 //
-$where = "";
+$conditions = ["
+    CASE
+        WHEN l.sidstedato LIKE '__-__-____' THEN STR_TO_DATE(l.sidstedato, '%d-%m-%Y')
+        ELSE STR_TO_DATE(l.sidstedato, '%Y-%m-%d')
+    END < :dato
+"];
 $params = [];
+$params[':dato'] = $dato;
 
 if ($placering !== '') {
-    $where = "WHERE l.pla_id = :p";
+    $conditions[] = "l.pla_id = :p";
     $params[':p'] = $placering;
 }
+
+$where = "WHERE " . implode(" AND ", $conditions);
 
 $stmt = $pdo->prepare("
     SELECT l.id, l.varenavn, l.kobsdato, l.sidstedato, l.maengde,
@@ -46,8 +60,9 @@ ob_start();
 
     <form method="GET" class="row g-2 mb-4">
 
-        <div class="col-md-12">
-            <select name="placering" class="form-control">
+        <div class="col-md-6">
+            <label for="placering" class="form-label">Placering</label>
+            <select name="placering" id="placering" class="form-select">
                 <option value="">Vælg placering</option>
                 <?php foreach ($pladser as $p): ?>
                     <option value="<?= $p['id'] ?>" <?= $placering == $p['id'] ? 'selected' : '' ?>>
@@ -55,6 +70,12 @@ ob_start();
                     </option>
                 <?php endforeach; ?>
             </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="dato" class="form-label">Sidste dato før</label>
+            <input type="date" name="dato" id="dato" class="form-control"
+                   value="<?= htmlspecialchars($dato) ?>">
         </div>
 
 <div class="col-md-6 mt-2">
