@@ -5,16 +5,19 @@ require_once __DIR__ . "/../../includes/config.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
 
     $id              = (int)$_POST['id'];
+    // Konverter dato fra YYYY-MM-DD til dd-mm-åååå
+    $dato            = date('d-m-Y', strtotime($_POST['dato']));
     $opladningsgrad  = (int)$_POST['opladningsgrad'];
     $km_stand        = (int)$_POST['km_stand'];
     $kwh             = (float)$_POST['kwh'];
     $fra_kwh         = !empty($_POST['fra_kwh']) ? (float)$_POST['fra_kwh'] : null;
     $opladning_fra   = trim($_POST['opladning_fra']);
 
-    // Opdater i databasen (dato kan ikke ændres)
+    // Opdater i databasen
     $stmt = $pdo->prepare("
         UPDATE opladning 
-        SET opladningsgrad = :opladningsgrad,
+        SET dato = :dato,
+            opladningsgrad = :opladningsgrad,
             km_stand = :km_stand,
             kwh = :kwh,
             fra_kwh = :fra_kwh,
@@ -24,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
 
     $stmt->execute([
         ':id'             => $id,
+        ':dato'           => $dato,
         ':opladningsgrad' => $opladningsgrad,
         ':km_stand'       => $km_stand,
         ':kwh'            => $kwh,
@@ -79,9 +83,17 @@ ob_start();
                 <tr>
                     <th>Dato</th>
                     <td>
-                        <input type="text" class="form-control" 
-                               value="<?= htmlspecialchars($selected['dato']) ?>" disabled>
-                        <small class="text-muted">Dato kan ikke ændres</small>
+                        <?php
+                        // Konverter gemt dato (dd-mm-åååå) til YYYY-MM-DD til date-input
+                        $dato_value = $selected['dato'];
+                        if (preg_match('/^\d{2}-\d{2}-\d{4}$/', $dato_value)) {
+                            $dt = DateTime::createFromFormat('d-m-Y', $dato_value);
+                            $dato_value = $dt ? $dt->format('Y-m-d') : $dato_value;
+                        }
+                        ?>
+                        <input type="date" name="dato" class="form-control" 
+                               value="<?= htmlspecialchars($dato_value) ?>" required>
+                        <small class="text-muted">Vælg dato fra kalender</small>
                     </td>
                 </tr>
 

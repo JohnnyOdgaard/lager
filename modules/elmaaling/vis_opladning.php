@@ -1,12 +1,43 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
 
-// Hent alle opladninger
+// Hent alle opladninger, nyeste dato øverst
 $stmt = $pdo->query("
     SELECT * FROM opladning
-    ORDER BY id DESC
+    ORDER BY 
+        CASE 
+            WHEN dato LIKE '__-__-____' THEN STR_TO_DATE(dato, '%d-%m-%Y')
+            ELSE STR_TO_DATE(dato, '%Y-%m-%d')
+        END DESC,
+        id DESC
 ");
 $rows = $stmt->fetchAll();
+
+// CSV-eksport
+if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+    header('Content-Type: text/csv; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="opladninger_' . date('Y-m-d') . '.csv"');
+
+    $out = fopen('php://output', 'w');
+    // UTF-8 BOM så Excel viser æøå korrekt
+    fwrite($out, "\xEF\xBB\xBF");
+
+    fputcsv($out, ['Dato', 'Opladningsgrad %', 'Km-stand', 'Opladt kWh', 'Fra kWh', 'Opladning fra'], ';');
+
+    foreach ($rows as $r) {
+        fputcsv($out, [
+            $r['dato'],
+            $r['opladningsgrad'],
+            $r['km_stand'],
+            number_format($r['kwh'], 2, ',', ''),
+            !empty($r['fra_kwh']) ? number_format($r['fra_kwh'], 2, ',', '') : '',
+            $r['opladning_fra'] ?? ''
+        ], ';');
+    }
+
+    fclose($out);
+    exit;
+}
 
 ob_start();
 ?>
@@ -17,6 +48,7 @@ ob_start();
     <div class="mb-3">
         <a href="aflaes_opladning.php" class="btn btn-primary">Ny aflæsning</a>
         <a href="ret_opladning.php" class="btn btn-secondary">Ret aflæsning</a>
+        <a href="vis_opladning.php?export=csv" class="btn btn-success">Eksportér CSV</a>
     </div>
 
     <?php if (empty($rows)): ?>
