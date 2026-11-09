@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 $search = $_GET['search'] ?? '';
 $message = '';
@@ -17,11 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ids'])) {
     $ny_pla = $_POST['ny_pla'];
 
     if (is_numeric($ny_pla) && count($ids) > 0) {
+        medTransaktion($pdo, function () use ($pdo, $ny_pla, $ids) {
         $stmt = $pdo->prepare("UPDATE lagerbeholdning SET pla_id = :p WHERE id = :id");
 
         foreach ($ids as $id) {
             $stmt->execute([':p' => $ny_pla, ':id' => $id]);
         }
+        });
 
         $message = count($ids) . " varer er flyttet.";
     } else {

@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 // Håndter indsendt formular
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt = $pdo->prepare($sql);
 
-    try {
+    medTransaktion($pdo, function () use ($pdo, $stmt, $maengde, $enhId) {
         $stmt->execute([
             ':varenavn' => $_POST['varenavn'],
             ':kobsdato' => $_POST['kobsdato'],
@@ -43,10 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':maengde' => $maengde,
             ':enhed' => $enhed
         ]);
-    } catch (PDOException $e) {
-        echo "FEJL: " . $e->getMessage();
-    }
-    header("Location: /lager/modules/indkoeb/indkoeb.php");
+    });
+    header("Location: /modules/indkoeb/indkoeb.php");
     exit;
 }
 
@@ -138,7 +137,7 @@ ob_start();
         <div class="col-sm-6">
             <h4>Overfør indkøb</h4>
 
-            <form action="/lager/modules/bestilling/bestil_update.php" method="POST">
+            <form action="/modules/bestilling/bestil_update.php" method="POST">
                 <table class="table table-sm table-bordered table-striped">
                     <tr>
                         <th>ID</th>
@@ -170,4 +169,3 @@ ob_start();
 <?php
 $content = ob_get_clean();
 include __DIR__ . "/../../includes/layout.php";
-

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 $message = "";
 $importeret = 0;
@@ -13,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csvfile'])) {
 
         if ($handle) {
 
+            try {
+            $importeret = medTransaktion($pdo, function () use ($pdo, $handle) {
+            $importeret = 0;
             while (($data = fgetcsv($handle, 1000, ";")) !== false) {
 
                 // Spring tomme linjer over
@@ -40,8 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csvfile'])) {
 
                 $importeret++;
             }
+            return $importeret;
+            });
+            } finally {
+                fclose($handle);
+            }
 
-            fclose($handle);
             $message = "Import færdig. $importeret varer indlæst.";
         } else {
             $message = "Kunne ikke læse filen.";

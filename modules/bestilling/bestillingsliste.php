@@ -22,7 +22,7 @@ ob_start();
 
             <h3>Bestillingsliste</h3>
 
-            <form action="/lager/modules/bestilling/bestil_update.php" method="POST">
+            <form action="/modules/bestilling/bestil_update.php" method="POST">
                 <table class="table table-sm table-bordered table-striped">
                     <thead>
                         <tr>

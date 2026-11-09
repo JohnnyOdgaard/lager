@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 $id = $_GET['id'] ?? null;
 
@@ -7,13 +8,14 @@ if (!$id) {
     die("Mangler ID.");
 }
 
+$resultat = medTransaktion($pdo, function () use ($pdo, $id) {
 // Hent beholdID
-$stmt = $pdo->prepare("SELECT beholdID FROM bestil WHERE id = :id");
+$stmt = $pdo->prepare("SELECT beholdID FROM bestil WHERE id = :id FOR UPDATE");
 $stmt->execute([':id' => $id]);
 $row = $stmt->fetch();
 
 if (!$row) {
-    die("Bestilling findes ikke.");
+    return false;
 }
 
 $beholdID = $row['beholdID'];
@@ -26,6 +28,12 @@ $stmt->execute([':id' => $id]);
 if ($beholdID) {
     $stmt = $pdo->prepare("DELETE FROM lagerbeholdning WHERE id = :bid");
     $stmt->execute([':bid' => $beholdID]);
+}
+return true;
+});
+
+if (!$resultat) {
+    die("Bestilling findes ikke.");
 }
 
 // Tilbage til bestillingslisten

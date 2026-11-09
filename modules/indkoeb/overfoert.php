@@ -26,7 +26,7 @@ ob_start();
         <p>Der blev ikke registreret nogen varer i denne omgang.</p>
     <?php endif; ?>
 
-    <a href="/lager/modules/indkoeb/indkoeb.php" class="btn btn-primary">
+    <a href="/modules/indkoeb/indkoeb.php" class="btn btn-primary">
         Tilbage til indkøb
     </a>
 </div>

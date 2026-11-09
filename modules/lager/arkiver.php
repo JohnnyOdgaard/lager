@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 $message = "";
 $antal = 0;
@@ -13,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($dato !== '') {
 
+        $antal = medTransaktion($pdo, function () use ($pdo, $dato) {
+        $antal = 0;
         // Hent alle varer der skal arkiveres
         $stmt = $pdo->prepare("
             SELECT * FROM lagerbeholdning
@@ -45,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $delete->execute([':id' => $v['id']]);
             $antal++;
         }
+        return $antal;
+        });
 
         $message = "$antal varer er arkiveret.";
     } else {

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../includes/config.php";
+require_once __DIR__ . "/../includes/transaction.php";
 
 $message = "";
 
@@ -28,6 +29,7 @@ if (isset($_POST['merge_from']) && isset($_POST['merge_to'])) {
 
     if ($fra != $til) {
 
+        $antal = medTransaktion($pdo, function () use ($pdo, $fra, $til) {
         $count = $pdo->prepare("SELECT COUNT(*) FROM lagerbeholdning WHERE pla_id = :id");
         $count->execute([':id' => $fra]);
         $antal = $count->fetchColumn();
@@ -37,6 +39,8 @@ if (isset($_POST['merge_from']) && isset($_POST['merge_to'])) {
 
         $del = $pdo->prepare("DELETE FROM plads WHERE id = :id");
         $del->execute([':id' => $fra]);
+        return $antal;
+        });
 
         $message = "$antal varer flyttet. Placering flettet og slettet.";
     }

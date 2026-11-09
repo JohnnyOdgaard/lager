@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 // 1) Opdater bestilt-status
 if (!empty($_POST['bestilt'])) {
+    medTransaktion($pdo, function () use ($pdo) {
     foreach ($_POST['bestilt'] as $id => $status) {
         $stmt = $pdo->prepare("UPDATE bestil SET bestilt = :status WHERE id = :id");
         $stmt->execute([
@@ -10,6 +12,7 @@ if (!empty($_POST['bestilt'])) {
             ':id'     => $id
         ]);
     }
+    });
 }
 
 // 2) Hent alle varer der er markeret som købt
@@ -52,7 +55,7 @@ ob_start();
                 <td><?= $v['vare'] ?></td>
                 <td><?= $v['bestilt'] ?></td>
                 <td>
-                    <form action="/lager/modules/indkoeb/indkoeb_fra_fjern.php" method="GET">
+                    <form action="/modules/indkoeb/indkoeb_fra_fjern.php" method="GET">
                         <input type="hidden" name="emne" value="<?= $v['vare'] ?>">
                         <input type="hidden" name="varid" value="<?= $v['behold_id'] ?>">
                         <button class="btn btn-info btn-sm">Overfør</button>

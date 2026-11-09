@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/transaction.php";
 
 $id = $_POST['id'];
 $antal = (int)$_POST['antal'];
@@ -8,22 +9,23 @@ if ($antal <= 0) {
     die("Antal skal vaere stoerre end 0.");
 }
 
+$ny = medTransaktion($pdo, function () use ($pdo, $id, $antal) {
 // Hent nuværende mængde
 $stmt = $pdo->prepare("SELECT l.varenavn, l.kobsdato, l.maengde, e.enhed
                        FROM lagerbeholdning l
                        LEFT JOIN enheder e ON e.id = l.enh_id
-                       WHERE l.id = :id");
+                       WHERE l.id = :id FOR UPDATE");
 $stmt->execute([':id' => $id]);
 $row = $stmt->fetch();
 
 if (!$row) {
-    die("Varen findes ikke.");
+    return "Varen findes ikke.";
 }
 
 $ny = (int)$row['maengde'] - $antal;
 
 if ($ny < 0) {
-    die("Du kan ikke hente mere end der er på lager.");
+    return "Du kan ikke hente mere end der er på lager.";
 }
 
 // Opdater mængde
@@ -39,6 +41,12 @@ $logStmt->execute([
     ':maengde' => $antal,
     ':enhed' => $row['enhed']
 ]);
+return $ny;
+});
+
+if (is_string($ny)) {
+    die($ny);
+}
 
 // Hvis der stadig er noget tilbage → tilbage til søgning
 if ($ny > 0) {

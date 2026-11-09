@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../includes/config.php";
+require_once __DIR__ . "/../includes/transaction.php";
 
 $message = "";
 
@@ -29,6 +30,7 @@ if (isset($_POST['merge_from']) && isset($_POST['merge_to'])) {
 
     if ($fra != $til) {
 
+        $antal = medTransaktion($pdo, function () use ($pdo, $fra, $til) {
         // Hvor mange varer påvirkes?
         $count = $pdo->prepare("SELECT COUNT(*) FROM lagerbeholdning WHERE typ_id = :id");
         $count->execute([':id' => $fra]);
@@ -41,6 +43,8 @@ if (isset($_POST['merge_from']) && isset($_POST['merge_to'])) {
         // Slet gammel kategori
         $del = $pdo->prepare("DELETE FROM kategori WHERE id = :id");
         $del->execute([':id' => $fra]);
+        return $antal;
+        });
 
         $message = "$antal varer flyttet. Kategori flettet og slettet.";
     }
