@@ -1,4 +1,4 @@
-<?php ?>
+<?php require_once __DIR__ . "/url.php"; ?>
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -9,10 +9,10 @@
     <title>Madsen Odgaard Lager</title>
 
     <!-- Bootstrap 5 CSS -->
-    <link href="/assets/css/bootstrap-5.3.8.css" rel="stylesheet">
+    <link href="<?= htmlspecialchars(lagerUrl('/assets/css/bootstrap-5.3.8.css')) ?>" rel="stylesheet">
 
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(lagerUrl('/assets/css/styles.css')) ?>">
 
 <style>
 
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <!-- HEADER-BILLEDE -->
     <div class="header-image position-relative w-100">
-        <img src="/assets/images/topBanner.png" alt="Lager" class="img-fluid w-100 header-img">
+        <img src="<?= htmlspecialchars(lagerUrl('/assets/images/topBanner.png')) ?>" alt="Lager" class="img-fluid w-100 header-img">
 
         <div class="header-title position-absolute top-50 start-50 translate-middle text-white text-center">
             <h1 class="display-5 fw-bold">Madsen Odgaards Lager</h1>
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
         <div class="container">
 
-            <a href="/index.php" class="navbar-brand">Lager</a>
+            <a href="<?= htmlspecialchars(lagerUrl('/index.php')) ?>" class="navbar-brand">Lager</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarWithDropdown">
                 <span class="navbar-toggler-icon"></span>
@@ -101,25 +101,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 <ul class="navbar-nav me-auto">
 
                     <li class="nav-item">
-                        <a href="/index.php" class="nav-link">Forside</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/index.php')) ?>" class="nav-link">Forside</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="/modules/indkoeb/indkoeb.php" class="nav-link">Indkøb</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/indkoeb/indkoeb.php')) ?>" class="nav-link">Indkøb</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="/modules/soeg/vareliste.php" class="nav-link">Vareliste</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/soeg/vareliste.php')) ?>" class="nav-link">Vareliste</a>
                     </li>
 
                     <!-- Bestilling -->
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">Bestilling</a>
                         <div class="dropdown-menu">
-                            <a href="/modules/bestilling/bestillingsliste.php" class="dropdown-item">Vis bestillinger</a>
-                            <a href="/modules/bestilling/bestil.php" class="dropdown-item">Opret bestilling</a>
-                            <a href="/modules/bestilling/bestil_update.php" class="dropdown-item">Overfør købte varer</a>
-                            <a href="/modules/bestilling/bestil_liste.php" class="dropdown-item">Fjern bestilling</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestillingsliste.php')) ?>" class="dropdown-item">Vis bestillinger</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil.php')) ?>" class="dropdown-item">Opret bestilling</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil_update.php')) ?>" class="dropdown-item">Overfør købte varer</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil_liste.php')) ?>" class="dropdown-item">Fjern bestilling</a>
                         </div>
                     </li>
 
@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">Hent</a>
                         <div class="dropdown-menu">
-                            <a href="/modules/hent/hent.php" class="dropdown-item">Hent via varer</a>
-                            <a href="/modules/hent/hent_kategori.php" class="dropdown-item">Hent via kategori</a>
-                            <a href="/modules/hent/hent_placering.php" class="dropdown-item">Hent via placering</a><br>
-                            <a href="/modules/hent/hent_advanced.php" class="dropdown-item">Hent via navn/kategori</a>
-                            <a href="/modules/hent/hent_udloeb.php" class="dropdown-item">Søg udløbet varer</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/hent/hent.php')) ?>" class="dropdown-item">Hent via varer</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/hent/hent_kategori.php')) ?>" class="dropdown-item">Hent via kategori</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/hent/hent_placering.php')) ?>" class="dropdown-item">Hent via placering</a><br>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/hent/hent_advanced.php')) ?>" class="dropdown-item">Hent via navn/kategori</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/hent/hent_udloeb.php')) ?>" class="dropdown-item">Søg udløbet varer</a>
                         </div>
                     </li>
 
@@ -141,51 +141,51 @@ document.addEventListener("DOMContentLoaded", function() {
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">Rettelser</a>
                         <div class="dropdown-menu">
-                            <a href="/modules/lager/ret_enhed.php" class="dropdown-item">Ret enhed</a>
-                            <a href="/modules/lager/ret_kategori.php" class="dropdown-item">Ret kategori</a>
-                            <a href="/modules/lager/ret_placering.php" class="dropdown-item">Ret placering</a>
-                            <a href="/modules/lager/ret_maengde.php" class="dropdown-item">Ret mængde</a><br>
-                            <a href="/modules/lager/ret_udloeb.php" class="dropdown-item">Ret udløbsdato</a>
-                            <a href="/modules/lager/ret_varenavn.php" class="dropdown-item">Ret varenavn</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/ret_enhed.php')) ?>" class="dropdown-item">Ret enhed</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/ret_kategori.php')) ?>" class="dropdown-item">Ret kategori</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/ret_placering.php')) ?>" class="dropdown-item">Ret placering</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/ret_maengde.php')) ?>" class="dropdown-item">Ret mængde</a><br>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/ret_udloeb.php')) ?>" class="dropdown-item">Ret udløbsdato</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/ret_varenavn.php')) ?>" class="dropdown-item">Ret varenavn</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/modules/lager/skift_enhed_multi.php" class="dropdown-item">Skift flere enheder</a>
-                           <!-- <a href="/modules/lager/rediger_indkoeb.php" class="dropdown-item">Ret indkøb/forbrug</a>-->
-                            <a href="/modules/lager/flyt_placering_multi.php" class="dropdown-item">Flyt flere varer</a>
-                            <a href="/modules/lager/skift_kategori_multi.php" class="dropdown-item">Ændre kategori flere varer</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/skift_enhed_multi.php')) ?>" class="dropdown-item">Skift flere enheder</a>
+                           <!-- <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/rediger_indkoeb.php')) ?>" class="dropdown-item">Ret indkøb/forbrug</a>-->
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/flyt_placering_multi.php')) ?>" class="dropdown-item">Flyt flere varer</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/skift_kategori_multi.php')) ?>" class="dropdown-item">Ændre kategori flere varer</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/modules/lager/export_csv.php" class="dropdown-item">Exporter csv</a>
-                            <a href="/modules/lager/import_csv.php" class="dropdown-item">Importer csv</a>
-                            <a href="/modules/lager/arkiver.php" class="dropdown-item">Arkiver</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/export_csv.php')) ?>" class="dropdown-item">Exporter csv</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/import_csv.php')) ?>" class="dropdown-item">Importer csv</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/lager/arkiver.php')) ?>" class="dropdown-item">Arkiver</a>
                         </div>
                     </li>
                     <!-- opret kategori, enhed og pladsering -->
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">System</a>
                         <div class="dropdown-menu">
-                            <a href="/system/opret_ny_enhed.php" class="dropdown-item">Opret enhed</a>
-                            <a href="/system/opret_ny_kategori.php" class="dropdown-item">Opret kategori</a>
-                            <a href="/system/opret_ny_placering.php" class="dropdown-item">Opret placering</a>
-                            <a href="/system/lager_log.php" class="dropdown-item">Vis lager log</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/opret_ny_enhed.php')) ?>" class="dropdown-item">Opret enhed</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/opret_ny_kategori.php')) ?>" class="dropdown-item">Opret kategori</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/opret_ny_placering.php')) ?>" class="dropdown-item">Opret placering</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/lager_log.php')) ?>" class="dropdown-item">Vis lager log</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/system/ret_enhed.php" class="dropdown-item">Ret enhed</a>
-                            <a href="/system/ret_kategori.php" class="dropdown-item">Ret kategori</a>
-                            <a href="/system/ret_placering.php" class="dropdown-item">Ret placering</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/ret_enhed.php')) ?>" class="dropdown-item">Ret enhed</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/ret_kategori.php')) ?>" class="dropdown-item">Ret kategori</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/system/ret_placering.php')) ?>" class="dropdown-item">Ret placering</a>
                         </div>
                     </li>
                     <!-- Elmålinger -->
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">Elmålinger</a>
                         <div class="dropdown-menu">
-                            <a href="/modules/elmaaling/aflaes.php" class="dropdown-item">Aflæs</a>
-                            <a href="/modules/elmaaling/historik.php" class="dropdown-item">Vis</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/aflaes.php')) ?>" class="dropdown-item">Aflæs</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/historik.php')) ?>" class="dropdown-item">Vis</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/modules/elmaaling/maanedlig.php" class="dropdown-item">Månedlig</a>
-                            <a href="/modules/elmaaling/graf.php" class="dropdown-item">Graf</a>
-                            <a href="/modules/elmaaling/effekt.php" class="dropdown-item">Effekt</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/maanedlig.php')) ?>" class="dropdown-item">Månedlig</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/graf.php')) ?>" class="dropdown-item">Graf</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/effekt.php')) ?>" class="dropdown-item">Effekt</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/modules/elmaaling/el_ret.php" class="dropdown-item">Ret</a>
-                            <a href="/modules/elmaaling/el_slet.php" class="dropdown-item">Slet</a>
-                            <a href="/modules/elmaaling/overfoer.php" class="dropdown-item">Arkiver</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/el_ret.php')) ?>" class="dropdown-item">Ret</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/el_slet.php')) ?>" class="dropdown-item">Slet</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/overfoer.php')) ?>" class="dropdown-item">Arkiver</a>
                         </div>
                     </li>
 
@@ -193,14 +193,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-bs-toggle" data-bs-toggle="dropdown">Opladning</a>
                         <div class="dropdown-menu">
-                            <a href="/modules/elmaaling/aflaes_opladning.php" class="dropdown-item">Aflæs</a>
-                            <a href="/modules/elmaaling/vis_opladning.php" class="dropdown-item">Vis</a>
-                            <a href="/modules/elmaaling/ret_opladning.php" class="dropdown-item">Ret</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/aflaes_opladning.php')) ?>" class="dropdown-item">Aflæs</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/vis_opladning.php')) ?>" class="dropdown-item">Vis</a>
+                            <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/ret_opladning.php')) ?>" class="dropdown-item">Ret</a>
                         </div>
                     </li>
 
                     <li class="nav-item">
-                        <a href="/system/status.php" class="nav-link">Lav status</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/system/status.php')) ?>" class="nav-link">Lav status</a>
                     </li>
 
                     <li class="nav-item">
@@ -214,5 +214,4 @@ document.addEventListener("DOMContentLoaded", function() {
     </nav>
 
     <!-- Bootstrap 5 JS -->
-   <script src="/assets/js/bootstrap.bundle.min.js"></script>
-
+   <script src="<?= htmlspecialchars(lagerUrl('/assets/js/bootstrap.bundle.min.js')) ?>"></script>

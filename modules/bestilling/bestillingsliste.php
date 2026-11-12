@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/url.php";
 
 // Hent bestillingslisten – alfabetisk sorteret
 $bestil = $pdo->query("
@@ -22,7 +23,7 @@ ob_start();
 
             <h3>Bestillingsliste</h3>
 
-            <form action="/modules/bestilling/bestil_update.php" method="POST">
+            <form action="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil_update.php')) ?>" method="POST">
                 <table class="table table-sm table-bordered table-striped">
                     <thead>
                         <tr>

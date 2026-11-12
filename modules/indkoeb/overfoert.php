@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/url.php";
 session_start();
 
 // Hent listen over overførte varer
@@ -26,7 +27,7 @@ ob_start();
         <p>Der blev ikke registreret nogen varer i denne omgang.</p>
     <?php endif; ?>
 
-    <a href="/modules/indkoeb/indkoeb.php" class="btn btn-primary">
+    <a href="<?= htmlspecialchars(lagerUrl('/modules/indkoeb/indkoeb.php')) ?>" class="btn btn-primary">
         Tilbage til indkøb
     </a>
 </div>

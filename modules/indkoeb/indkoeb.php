@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/url.php";
 require_once __DIR__ . "/../../includes/transaction.php";
 
 // Håndter indsendt formular
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':enhed' => $enhed
         ]);
     });
-    header("Location: /modules/indkoeb/indkoeb.php");
+    header("Location: " . lagerUrl('/modules/indkoeb/indkoeb.php'));
     exit;
 }
 
@@ -137,7 +138,7 @@ ob_start();
         <div class="col-sm-6">
             <h4>Overfør indkøb</h4>
 
-            <form action="/modules/bestilling/bestil_update.php" method="POST">
+            <form action="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil_update.php')) ?>" method="POST">
                 <table class="table table-sm table-bordered table-striped">
                     <tr>
                         <th>ID</th>

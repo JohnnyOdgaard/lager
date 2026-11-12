@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/url.php";
 require_once __DIR__ . "/../../includes/transaction.php";
 
 // 1) Opdater bestilt-status
@@ -55,7 +56,7 @@ ob_start();
                 <td><?= $v['vare'] ?></td>
                 <td><?= $v['bestilt'] ?></td>
                 <td>
-                    <form action="/modules/indkoeb/indkoeb_fra_fjern.php" method="GET">
+                    <form action="<?= htmlspecialchars(lagerUrl('/modules/indkoeb/indkoeb_fra_fjern.php')) ?>" method="GET">
                         <input type="hidden" name="emne" value="<?= $v['vare'] ?>">
                         <input type="hidden" name="varid" value="<?= $v['behold_id'] ?>">
                         <button class="btn btn-info btn-sm">Overfør</button>

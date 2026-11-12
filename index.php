@@ -1,5 +1,6 @@
 <?php 
 require_once __DIR__ . "/includes/config.php";
+require_once __DIR__ . "/includes/url.php";
 
 $exportMessage = '';
 $exportError = '';
@@ -88,7 +89,7 @@ include __DIR__ . "/includes/header.php";
     <?php if ($exportMessage !== ''): ?>
         <div class="alert alert-success" role="alert">
             <?= htmlspecialchars($exportMessage, ENT_QUOTES, 'UTF-8') ?>
-            <a href="/csv/lagebeholdning.csv" class="alert-link">Hent CSV-filen</a>
+            <a href="<?= htmlspecialchars(lagerUrl('/csv/lagebeholdning.csv')) ?>" class="alert-link">Hent CSV-filen</a>
         </div>
     <?php endif; ?>
     <?php if ($exportError !== ''): ?>
@@ -105,7 +106,7 @@ include __DIR__ . "/includes/header.php";
                         både dem der ligger i bestillingslisten og dem, hvor der ikke
                         var oprettet en bestilling.
                     </p>
-                    <a href="/modules/indkoeb/indkoeb.php" class="btn btn-outline-success mt-2">Åbn indkøb</a>
+                    <a href="<?= htmlspecialchars(lagerUrl('/modules/indkoeb/indkoeb.php')) ?>" class="btn btn-outline-success mt-2">Åbn indkøb</a>
                 </div>
             </div>
         </div>
@@ -118,7 +119,7 @@ include __DIR__ . "/includes/header.php";
                         Via nedenstående link kan du udtage varer fra lageret,
                         både efter varens navn, dens placering eller dens kategori.
                     </p>
-                    <a href="/modules/hent/hent_advanced.php" class="btn btn-outline-success mt-2">Åbn hent</a>
+                    <a href="<?= htmlspecialchars(lagerUrl('/modules/hent/hent_advanced.php')) ?>" class="btn btn-outline-success mt-2">Åbn hent</a>
                 </div>
             </div>
         </div>
@@ -131,8 +132,8 @@ include __DIR__ . "/includes/header.php";
                         Her har du mulighed for at oprette og fjerne en bestilling.
                     </p>
                     <div class="d-flex gap-2 mt-2">
-                        <a href="/modules/bestilling/bestil.php" class="btn btn-outline-success flex-fill">Opret</a>
-                        <a href="/modules/bestilling/bestil_liste.php" class="btn btn-outline-primary flex-fill">Fjern</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil.php')) ?>" class="btn btn-outline-success flex-fill">Opret</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil_liste.php')) ?>" class="btn btn-outline-primary flex-fill">Fjern</a>
                     </div>
                 </div>
             </div>
@@ -147,8 +148,8 @@ include __DIR__ . "/includes/header.php";
                         via nedenstående knapper.
                     </p>
                     <div class="d-flex gap-2 mt-2">
-                        <a href="/modules/elmaaling/aflaes.php" class="btn btn-outline-success flex-fill">Aflæs EL</a>
-                        <a href="/modules/elmaaling/historik.php" class="btn btn-outline-primary flex-fill">Vis</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/aflaes.php')) ?>" class="btn btn-outline-success flex-fill">Aflæs EL</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/historik.php')) ?>" class="btn btn-outline-primary flex-fill">Vis</a>
                     </div>
                 </div>
             </div>
@@ -163,8 +164,8 @@ include __DIR__ . "/includes/header.php";
                         via nedenstående knapper.
                     </p>
                     <div class="d-flex gap-2 mt-2">
-                        <a href="/modules/elmaaling/aflaes_opladning.php" class="btn btn-outline-success flex-fill">Aflæs</a>
-                        <a href="/modules/elmaaling/vis_opladning.php" class="btn btn-outline-primary flex-fill">Vis</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/aflaes_opladning.php')) ?>" class="btn btn-outline-success flex-fill">Aflæs</a>
+                        <a href="<?= htmlspecialchars(lagerUrl('/modules/elmaaling/vis_opladning.php')) ?>" class="btn btn-outline-primary flex-fill">Vis</a>
                     </div>
                 </div>
             </div>
@@ -178,7 +179,7 @@ include __DIR__ . "/includes/header.php";
                         Se log over alle indkøb og hentninger med statistik.
                         Filtrer efter handling og varenavn.
                     </p>
-                    <a href="/system/lager_log.php" class="btn btn-outline-success mt-2">Åbn log</a>
+                    <a href="<?= htmlspecialchars(lagerUrl('/system/lager_log.php')) ?>" class="btn btn-outline-success mt-2">Åbn log</a>
                 </div>
             </div>
         </div>
@@ -191,7 +192,7 @@ include __DIR__ . "/includes/header.php";
                         Gem lagerbeholdningen i csv/lagebeholdning.csv med varenavn,
                         enhed, placering, mængde, købt og sidste dato.
                     </p>
-                    <form method="POST" action="/index.php" class="mt-2">
+                    <form method="POST" action="<?= htmlspecialchars(lagerUrl('/index.php')) ?>" class="mt-2">
                         <button type="submit" name="action" value="export_inventory" class="btn btn-outline-success w-100">Eksportér CSV</button>
                     </form>
                 </div>

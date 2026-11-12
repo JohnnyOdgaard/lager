@@ -2,10 +2,17 @@
 
 ## Adgang via subdomæne
 
-Systemet bruges fra roden af `https://lager.iodata.dk/`. IIS-sitets fysiske
-rod skal pege på lager-mappen. Links, formularer, viderestillinger og statiske
-filer bruger rodrelative URL'er uden det tidligere `/lager/`-præfiks.
-Adgangsbegrænsningen til `iodata.dk/lager/` håndteres i serveropsætningen.
+Samme kode kan bruges fra `http://localhost/lager/` og fra roden af
+`https://lager.iodata.dk/`. På subdomænet skal sitets fysiske rod pege på
+lager-mappen; lokalt ligger den under webrodens `lager`-mappe.
+
+`includes/url.php` danner installationsrelative URL'er ud fra det kørende
+scripts filsti og `SCRIPT_NAME`. Links, formularer, viderestillinger og
+statiske filer får dermed automatisk `/lager`-præfiks lokalt og intet
+præfiks på subdomænet. Relative links mellem moduler bevares. Det kræver
+ingen ændring af `includes/config.php` eller databaseforbindelsen.
+Adgangsbegrænsning eller viderestilling fra den gamle adresse
+`iodata.dk/lager/` håndteres fortsat i serveropsætningen.
 
 ## Eksport af lagerbeholdning
 

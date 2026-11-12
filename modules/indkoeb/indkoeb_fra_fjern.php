@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/url.php";
 require_once __DIR__ . "/../../includes/transaction.php";
 session_start();
 
@@ -25,11 +26,11 @@ if (!$vare) {
     $naesteVareId = $pdo->query("SELECT beholdID FROM bestil WHERE bestilt = 'Ja' ORDER BY id ASC LIMIT 1")->fetchColumn();
 
     if ($naesteVareId) {
-        header("Location: /modules/indkoeb/indkoeb_fra_fjern.php?varid=" . urlencode((string) $naesteVareId));
+        header("Location: " . lagerUrl('/modules/indkoeb/indkoeb_fra_fjern.php?varid=' . urlencode((string) $naesteVareId)));
         exit;
     }
 
-    header("Location: /index.php");
+    header("Location: " . lagerUrl('/index.php'));
     exit;
 }
 
@@ -89,11 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check = $pdo->query("SELECT COUNT(*) FROM bestil WHERE bestilt = 'Ja'")->fetchColumn();
 
     if ($check == 0) {
-        header("Location: /modules/indkoeb/overfoert.php");
+        header("Location: " . lagerUrl('/modules/indkoeb/overfoert.php'));
         exit;
     }
 
-    header("Location: /modules/bestilling/bestil_update.php");
+    header("Location: " . lagerUrl('/modules/bestilling/bestil_update.php'));
     exit;
 }
 
