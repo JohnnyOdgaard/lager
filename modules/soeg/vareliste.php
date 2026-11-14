@@ -142,11 +142,11 @@ ob_start();
         Ret
     </a>
 
-    <a href="../indkoeb/indkoeb_slet.php?id=<?= $r['id'] ?>" 
-       class="btn btn-outline-danger btn-sm"
-       onclick="return confirm('Er du sikker på, at du vil slette dette indkøb?');">
-        Slet
-    </a>
+    <form method="POST" action="../indkoeb/indkoeb_slet.php" class="d-inline"
+          onsubmit="return confirm('Er du sikker på, at du vil slette dette indkøb?');">
+        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+        <button type="submit" class="btn btn-outline-danger btn-sm">Slet</button>
+    </form>
 </td>
 
     </tr>

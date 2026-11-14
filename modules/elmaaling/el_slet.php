@@ -13,9 +13,20 @@ $offset = ($page - 1) * $per_page;
 // SLET RECORD
 //
 if (isset($_GET['slet'])) {
-    $id = intval($_GET['slet']);
+    http_response_code(405);
+    header('Allow: POST');
+    exit('Sletning kræver en POST-forespørgsel.');
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = filter_var($_POST['slet'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($id === false || $id === null) {
+        http_response_code(400);
+        exit('Ugyldigt ID.');
+    }
     $stmt = $pdo->prepare("DELETE FROM elmaaler WHERE id = :id");
     $stmt->execute([':id' => $id]);
+    header('Location: el_slet.php?page=' . $page);
+    exit;
 }
 
 
@@ -63,9 +74,11 @@ ob_start();
     <td><?= $r['el'] ?></td>
     <td><?= $r['solcelle'] ?></td>
     <td>
-        <a href="?slet=<?= $r['id'] ?>&page=<?= $page ?>"
-           class="btn btn-danger btn-sm"
-           onclick="return confirm('Slet måling?')">Slet</a>
+        <form method="POST" action="?page=<?= $page ?>"
+              onsubmit="return confirm('Slet måling?')">
+            <input type="hidden" name="slet" value="<?= $r['id'] ?>">
+            <button type="submit" class="btn btn-danger btn-sm">Slet</button>
+        </form>
     </td>
 </tr>
 

@@ -18,19 +18,20 @@ $stmt->execute([':id' => $varid]);
 $vare = $stmt->fetch();
 
 if (!$vare) {
-    // Fjern ugyldig reference fra bestillingslisten
-    $del = $pdo->prepare("DELETE FROM bestil WHERE beholdID = :id");
-    $del->execute([':id' => $varid]);
-
-    // Hent næste vare markeret som købt, hvis den findes
-    $naesteVareId = $pdo->query("SELECT beholdID FROM bestil WHERE bestilt = 'Ja' ORDER BY id ASC LIMIT 1")->fetchColumn();
-
-    if ($naesteVareId) {
-        header("Location: " . lagerUrl('/modules/indkoeb/indkoeb_fra_fjern.php?varid=' . urlencode((string) $naesteVareId)));
-        exit;
-    }
-
-    header("Location: " . lagerUrl('/index.php'));
+    http_response_code(404);
+    ob_start();
+    ?>
+    <div class="container mt-4">
+        <div class="alert alert-warning" role="alert">
+            Lagerposten findes ikke. Bestillingen er ikke slettet; kontrollér dens beholdnings-ID.
+        </div>
+        <a href="<?= htmlspecialchars(lagerUrl('/modules/bestilling/bestil_update.php')) ?>" class="btn btn-primary">
+            Tilbage til købte varer
+        </a>
+    </div>
+    <?php
+    $content = ob_get_clean();
+    include __DIR__ . "/../../includes/layout.php";
     exit;
 }
 

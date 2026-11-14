@@ -24,6 +24,7 @@ try {
             b.vare,
             b.bestilt,
             b.beholdID AS behold_id,
+            l.id AS lager_id,
             l.varenavn
         FROM bestil b
         LEFT JOIN lagerbeholdning l ON l.id = b.beholdID
@@ -56,11 +57,15 @@ ob_start();
                 <td><?= $v['vare'] ?></td>
                 <td><?= $v['bestilt'] ?></td>
                 <td>
+                    <?php if ($v['lager_id'] !== null): ?>
                     <form action="<?= htmlspecialchars(lagerUrl('/modules/indkoeb/indkoeb_fra_fjern.php')) ?>" method="GET">
                         <input type="hidden" name="emne" value="<?= $v['vare'] ?>">
                         <input type="hidden" name="varid" value="<?= $v['behold_id'] ?>">
                         <button class="btn btn-info btn-sm">Overfør</button>
                     </form>
+                    <?php else: ?>
+                        <span class="text-danger">Lagerpost mangler; bestillingen er bevaret.</span>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

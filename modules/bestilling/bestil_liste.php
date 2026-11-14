@@ -35,10 +35,11 @@ ob_start();
                 <td><?= $r['bestilt'] ?></td>
                 <td><?= $r['beholdID'] ?: '-' ?></td>
                 <td>
-                    <a href="bestil_slet.php?id=<?= $r['id'] ?>"
-                       onclick="return confirm('Vil du slette denne bestilling?')">
-                       Slet
-                    </a>
+                    <form method="POST" action="bestil_slet.php" class="d-inline"
+                          onsubmit="return confirm('Vil du slette bestillingen og den tilknyttede lagerpost?')">
+                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                        <button type="submit" class="btn btn-link p-0">Slet</button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
