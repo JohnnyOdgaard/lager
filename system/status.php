@@ -26,7 +26,7 @@ $conditions = ["
         WHEN l.sidstedato LIKE '__-__-____' THEN STR_TO_DATE(l.sidstedato, '%d-%m-%Y')
         ELSE STR_TO_DATE(l.sidstedato, '%Y-%m-%d')
     END < :dato
-"];
+", "l.maengde <> 0"];
 $params = [];
 $params[':dato'] = $dato;
 
@@ -54,6 +54,17 @@ $rows = $stmt->fetchAll();
 
 ob_start();
 ?>
+
+<style>
+@media print {
+    .header-image,
+    .navbar,
+    #site_footer,
+    form {
+        display: none !important;
+    }
+}
+</style>
 
 <div class="container mt-4">
     <h3>Status – varer pr. placering</h3>
