@@ -15,10 +15,11 @@ $navn   = $_GET['navn'] ?? '';
 
 $sql = "
     SELECT l.id, l.varenavn, l.kobsdato, l.sidstedato, l.maengde,
-           p.plads AS pladsnavn
+           p.plads AS pladsnavn, e.enhed
     FROM lagerbeholdning l
     LEFT JOIN plads p ON l.pla_id = p.id
-    WHERE 1=1
+    LEFT JOIN enheder e ON l.enh_id = e.id
+    WHERE l.maengde > 0
 ";
 
 $params = [];
@@ -95,6 +96,7 @@ ob_start();
             <th>Sidste</th>
             <th>Placering</th>
             <th>Mængde</th>
+            <th>Enhed</th>
         </tr>
     </thead>
 
@@ -102,7 +104,7 @@ ob_start();
     <?php foreach ($varer as $v): ?>
         <tr>
             <td data-label="ID">
-                <a class="btn btn-primary btn-sm" href="hent_vare.php?id=<?= $v['id'] ?>">
+                <a class="btn btn-primary btn-sm" href="hent_vare.php?id=<?= $v['id'] ?>&amp;fra=hent_advanced">
                     <?= $v['id'] ?>
                 </a>
             </td>
@@ -111,7 +113,8 @@ ob_start();
             <td data-label="Købt"><?= $v['kobsdato'] ?></td>
             <td data-label="Sidste"><?= $v['sidstedato'] ?></td>
             <td data-label="Placering"><?= $v['pladsnavn'] ?></td>
-            <td data-label="Mængde"><?= $v['maengde'] ?></td>
+            <td data-label="Mængde"><?= (int)$v['maengde'] ?></td>
+            <td data-label="Enhed"><?= htmlspecialchars($v['enhed'] ?? '—') ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

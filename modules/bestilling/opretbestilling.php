@@ -21,5 +21,6 @@ $stmt->execute([
     ':beholdID' => $beholdID
 ]);
 
+$fraHentAvanceret = $beholdID !== null && ($_POST['fra'] ?? '') === 'hent_advanced';
 include __DIR__ . "/bestil_update.php";
 exit;

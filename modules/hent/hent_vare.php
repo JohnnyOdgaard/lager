@@ -27,6 +27,9 @@ ob_start();
 
     <form method="POST" action="hent_opdater.php">
         <input type="hidden" name="id" value="<?= $vare['id'] ?>">
+        <?php if (($_GET['fra'] ?? '') === 'hent_advanced'): ?>
+            <input type="hidden" name="fra" value="hent_advanced">
+        <?php endif; ?>
 
         <label for="antal">Hvor meget vil du hente?</label>
        <input type="number" name="antal" class="form-control" value="<?= $vare['maengde'] ?>" autofocus>

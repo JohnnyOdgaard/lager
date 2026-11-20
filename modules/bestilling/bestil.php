@@ -27,6 +27,9 @@ ob_start();
         <form method="POST" action="opretbestilling.php" style="display:inline-block;">
             <input type="hidden" name="beholdID" value="<?= $id ?>">
             <input type="hidden" name="vare" value="<?= $vare['varenavn'] ?>">
+            <?php if (($_GET['fra'] ?? '') === 'hent_advanced'): ?>
+                <input type="hidden" name="fra" value="hent_advanced">
+            <?php endif; ?>
             <button class="btn btn-primary">Opret bestilling</button>
         </form>
 

@@ -37,6 +37,11 @@ try {
     exit;
 }
 
+if (($fraHentAvanceret ?? false) && $varer === []) {
+    header("Location: " . lagerUrl('/modules/hent/hent_advanced.php'), true, 303);
+    exit;
+}
+
 ob_start();
 ?>
 

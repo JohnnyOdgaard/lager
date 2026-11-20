@@ -32,6 +32,15 @@ Forsiden viser en bekræftelse med downloadlink eller en fejlmeddelelse.
 
 Den eksisterende CSV-download i lagermodulet er uændret.
 
+## Bestilling efter udtagning
+
+[Hent via navn/kategori](./modules/hent/hent_advanced.php) viser kun
+lagerposter med en mængde større end nul. Mængden vises uden decimaler,
+efterfulgt af kolonnen **Enhed**.
+Når du tømmer en lagerpost og vælger **Opret bestilling**, kommer du
+tilbage til søgningen, hvis der ikke er varer markeret som købt.
+Ellers vises de købte varer som før.
+
 ## Transaktioner
 
 Sammenhørende ændringer i indkøb, udtagning, bestillingssletning,

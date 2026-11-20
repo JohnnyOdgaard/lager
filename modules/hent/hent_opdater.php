@@ -55,5 +55,6 @@ if ($ny > 0) {
 }
 
 // Hvis mængden er 0 → videre til bestil.php
-header("Location: ../bestilling/bestil.php?id=$id");
+$fra = ($_POST['fra'] ?? '') === 'hent_advanced' ? '&fra=hent_advanced' : '';
+header("Location: ../bestilling/bestil.php?id=$id$fra");
 exit;
