@@ -100,6 +100,11 @@ ob_start();
     </form>
 
     <div class="print-area">
+        <?php foreach ($pladser as $p): ?>
+            <?php if ($placering !== '' && $placering == $p['id']): ?>
+                <h4 class="d-none d-print-block"><?= htmlspecialchars($p['plads']) ?></h4>
+            <?php endif; ?>
+        <?php endforeach; ?>
         <table class="table table-bordered table-sm">
             <thead>
                 <tr>
